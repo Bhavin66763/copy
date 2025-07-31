@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Text Copy</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 10px;
+            overflow: hidden; /* Verhindert Scrollbalken */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+            background-color: #FCFFE6; /* Hintergrundfarbe */
+        }
+        input[type="text"] {
+            width: 150px; /* Größe für eine Telefonnummer */
+            padding: 5px;
+            font-size: 12px; /* Schriftgröße */
+            margin-bottom: 10px;
+        }
+        button {
+            padding: 10px 20px; /* Verdoppelte Größe für den Knopf */
+            font-size: 20px; /* Größere Schriftgröße */
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <input type="text" id="myInput" value="">
+    <button onclick="copyText()">copy</button>
+
+    <script>
+        function getParameterByName(name) {
+            name = name.replace(/[\[\]]/g, '\\$&');
+            var url = window.location.href;
+            var regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)');
+            var results = regex.exec(url);
+            if (!results) return null;
+            if (!results[2]) return '';
+            return decodeURIComponent(results[2].replace(/\+/g, ' '));
+        }
+
+        function copyText() {
+            var copyText = document.getElementById("myInput");
+            copyText.select();
+            copyText.setSelectionRange(0, 99999); // Für mobile Geräte
+            navigator.clipboard.writeText(copyText.value).then(function() {
+                alert("Text has been copied: " + copyText.value);
+            }, function(err) {
+                alert("Failed to copy: " + err);
+            });
+        }
+
+        // Setze den Wert des Textfelds basierend auf dem URL-Parameter
+        document.getElementById("myInput").value = getParameterByName('text') || '';
+    </script>
+</body>
+</html>
